@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Product 	Name="Check_MK Agent 1.2.5i1 32-bit"
+				Manufacturer="Mathias Kettner GmbH / Installer: LSE Leading Security Experts GmbH"
+				Version="1.2.5"
+				Language="1033"
+				Id="0028bdd1-886a-4dd8-b038-1e05430bffe1"
+				UpgradeCode="9481eee8-1a59-4e6b-9348-6e1c8982bab4">
+	<Package	Id="*"
+				InstallerVersion="405"
+				Platform="x86"
+				Compressed="yes"/>
+	<Media		Id="1"
+				EmbedCab="yes"
+				Cabinet="check_mk_agent.cab"/>
+	
+	<Directory	Id="TARGETDIR" Name="SourceDir">
+		<Directory Id="ProgramFilesFolder">
+			<Directory Id="INSTALLDIR" Name="Check_MK_Agent_1.2.5i1"/>
+		</Directory>
+	</Directory>
+	
+	<DirectoryRef Id="INSTALLDIR">
+		<Component Id="check_mk_agent.exe" Guid="592636d6-50cd-4c37-b3fd-631d4404bbff">
+			<File Id="check_mk_agent.exe" Source="check_mk_agent.exe" KeyPath="yes" Checksum="yes"/>
+			<ServiceInstall	Id="check_mk_service"
+							Type="ownProcess"
+							Name="check_mk"
+							DisplayName="Check_MK"
+							Description="Check_MK Monitoring Agent"
+							Start="auto"
+							Account="LocalSystem"
+							ErrorControl="normal">
+			</ServiceInstall>
+			<ServiceControl	Id="check_mk_service"
+							Name="check_mk"
+							Start="install"
+							Stop="both"
+							Remove="uninstall"
+							Wait="yes">
+			</ServiceControl>
+		</Component>
+	</DirectoryRef>
+	
+	<Feature	Id="Agent" Title="Agent" Level="1">
+		<ComponentRef Id="check_mk_agent.exe"/>
+	</Feature>
+	</Product>
+</Wix>
