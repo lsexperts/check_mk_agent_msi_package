@@ -1,0 +1,5 @@
+With this .wxs scripts you are able to build a simple MSI package for the
+Check_MK agent for Windows.
+
+Use the WiX Toolset to build the MSI.  (http://wixtoolset.org)
+
